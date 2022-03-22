@@ -10,6 +10,7 @@
 using std::string;
 using std::cout;
 using std::endl;
+
 FILE * f;
 
 class Tele {
@@ -116,7 +117,7 @@ void mounted(int flag) {
         
  
 for(int i = 0; i< count;i++) {
-    teleMass[i].restore(-1, "СОФИЯ", " ", " ");
+    teleMass[i].restore(-1, " ", " ", " ");
     teleMass[i].print();
 }
 
@@ -126,7 +127,6 @@ int main() {
     
     isFile();
     mounted(0);
-
 
     return 0;
 }
