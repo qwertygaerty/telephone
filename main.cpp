@@ -23,18 +23,18 @@ class Tele {
     }
     
     void restore(int id, string name, string surname, string phone) {
-        this->id = id;
-        this->name = name;
-        this->surname = surname;
-        this->phone = phone;
+        
+        if(id != -1) this->id = id;
+        if(name != " ") this->name = name;
+        if(surname != " ") this->surname = surname;
+        if(phone != " ") this->phone = phone;
     }
 };
 
-FILE isFile() {
+void isFile() {
     if ((f = fopen("text.txt", "r")) == NULL) {
         std::ofstream oFile("text.txt");
     };
-    return *f;
 }
 
 int getFirstNonSpaceSymbol(string mass[4]) {
@@ -76,7 +76,21 @@ Tele getClassItem(string t) {
     return item;
 }
 
-void mounted() {
+void mounted(int flag) {
+    
+     if(!flag) {
+        
+        
+          isFile();
+    
+    std::ofstream vmdelet_out;                    
+    vmdelet_out.open("text.txt", std::ios::app);  
+    vmdelet_out << "\n 7.    qqf       trer     9090909090;";                        
+    vmdelet_out.close();   
+        
+        mounted(1);
+    }
+    
     int count = 0;
     int n = 0;
     string teleString = "";
@@ -99,16 +113,20 @@ void mounted() {
         } else {
             teleString += c;
         }
+        
+ 
 for(int i = 0; i< count;i++) {
-    teleMass[i].restore("СОФИЯ");
+    teleMass[i].restore(-1, "СОФИЯ", " ", " ");
     teleMass[i].print();
 }
 
 }
 
 int main() {
+    
     isFile();
-    mounted();
+    mounted(0);
+
 
     return 0;
 }
