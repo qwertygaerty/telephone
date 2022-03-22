@@ -1,5 +1,5 @@
-ID: 1   Name: Dan       SurName: Ahagna    Phone: 8348345676;
-ID: 2   Name: User      SurName: Toma      Phone:  9999999999;
-ID: 3   Name: Иван      SurName: Алексеев  Phone: 8908908908;
-ID: 4   Name: Иван      SurName: Алексеев  Phone: 8888888888;
-ID: 5   Name: bdf      SurName: qweqwe     Phone: 9090909090;
+ 1.    Dan        Ahagna     8348345676;
+ 2.   User       Toma        9999999999;
+ 3.    Иван       Алексеев   8908908908;
+ 4.    Иван       Алексеев   8888888888;
+ 5.    bdf       qweqwe      9090909090;
