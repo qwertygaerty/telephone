@@ -14,12 +14,19 @@ FILE * f;
 
 class Tele {
     public:
-        string name;
+    string name;
     string surname;
     string phone;
     int id;
     void print() {
         cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\tPhone: " << phone << endl;
+    }
+    
+    void restore(int id, string name, string surname, string phone) {
+        this->id = id;
+        this->name = name;
+        this->surname = surname;
+        this->phone = phone;
     }
 };
 
@@ -92,15 +99,11 @@ void mounted() {
         } else {
             teleString += c;
         }
-        
-    
-        
 for(int i = 0; i< count;i++) {
-    cout << "ID: " << teleMass[i].id << "\tName: " << teleMass[i].name << "\tSurName: " << teleMass[i].surname << "\t\tPhone: " << teleMass[i].phone << endl;
+    teleMass[i].restore("СОФИЯ");
+    teleMass[i].print();
 }
 
-
-    
 }
 
 int main() {
