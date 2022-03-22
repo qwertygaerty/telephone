@@ -32,33 +32,21 @@ FILE isFile() {
     return *f;
 }
 
-int getFirstNonSpaceSymbol(string mass[4]) {
-    int count;
-    for(int i =0;i < 4; i++) {
-        if(mass[i] == "n") {
-          count=i;
-          break;
-        }
-    }
-    return count;
-}
 
 string getStringDelimiter(string s) {
-    string mass[4]= {"n", "n", "n", "n"};
+    
+    
     std::istringstream instr(s);
     string w;
-    int count;
-    while (instr >> w) {
-        count = getFirstNonSpaceSymbol(mass);
-
-
-        mass[count] = w;
-    }
-
-     cout << "ID: " << mass[0] << "\tName: " << mass[1] << "\tSurName: " << mass[2] << "\t\tPhone: " << mass[3] << endl;
-
+    
+    while (instr >> w)
+        cout << w << std::endl;
+    
+    
    return "";
 }
+
+
 
 string getClassItem(string t) {
     string word;
@@ -72,6 +60,8 @@ string getClassItem(string t) {
     
     return "";
 }
+
+
 
 void mounted() {
     int count = 0;
