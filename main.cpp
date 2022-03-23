@@ -100,18 +100,11 @@ int getLengthFile(int count) {
     return count;
 }
 
-void mounted() {
-
-    int count = 0;
-    int n = 0;
+Tele getClassMass(Tele *teleMass) {
     string teleString = "";
+    int n = 0;
     char c;
-
-    count = getLengthFile(count);
-
     isFile();
-    Tele teleMass[count];
-
     while (!feof(f))
         if ((c = fgetc(f)) == ';') {
             teleMass[n] = getClassItem(teleString);
@@ -120,6 +113,23 @@ void mounted() {
         } else {
             teleString += c;
         }
+    return *teleMass;
+}
+
+
+string toString(int n){
+    std::ostringstream ss;
+    ss << n;
+    return ss.str();
+}
+
+
+void mounted() {
+
+    int count = 0;
+    count = getLengthFile(count);
+    Tele teleMass[count];
+    getClassMass(teleMass);
 
     for (int i = 0; i < count; i++) {
         teleMass[i].print();
@@ -181,6 +191,10 @@ void addToFile() {
 
 void removeToFile() {
    int id;
+   char c;
+   string teleString = "";
+   int flag = 0;
+
    
    isFile();
    
@@ -188,8 +202,30 @@ void removeToFile() {
   
    std::cin >> id;
    
-   
-   
+    // count = getLengthFile(count);
+    // Tele teleMass[count];
+
+    while (!feof(f))
+        if ((c = fgetc(f)) == ';') {
+            teleString = "";
+            flag = 0;
+        } else {
+            teleString += c;
+             
+            c = ' ';
+            
+            if(teleString == (toString(id)+=".")) {
+                flag = 1;
+            }
+            
+            if(flag) {
+               cout << (toString(id)+='.') << endl;
+                cout << teleString << endl;
+            }
+            
+        }
+ 
+
 }
 
 
