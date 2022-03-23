@@ -16,14 +16,15 @@ using std::endl;
 void printStart();
 
 
+
 FILE * f;
 
 class Tele {
     public:
         string name;
     string surname;
-    string phone;
     int id;
+    long phone;
     void print() {
         
         cout << "---------------------------------------------------------------------------------------------------------" << endl;
@@ -33,12 +34,12 @@ class Tele {
         cout << "---------------------------------------------------------------------------------------------------------" << endl;
     }
 
-    void restore(int id, string name, string surname, string phone) {
+    void restore(int id, string name, string surname, long phone) {
 
         if (id != -1) this -> id = id;
         if (name != " ") this -> name = name;
         if (surname != " ") this -> surname = surname;
-        if (phone != " ") this -> phone = phone;
+        if (phone != -1) this -> phone = phone;
     }
 };
 
@@ -46,6 +47,18 @@ void isFile() {
     if ((f = fopen("text.txt", "r")) == NULL) {
         std::ofstream oFile("text.txt");
     };
+}
+
+string toString(int n){
+    std::ostringstream ss;
+    ss << n;
+    return ss.str();
+}
+
+string toStringLong(long n){
+    std::ostringstream ss;
+    ss << n;
+    return ss.str();
 }
 
 int getFirstNonSpaceSymbol(string mass[4]) {
@@ -86,7 +99,7 @@ Tele getClassItem(string t) {
     item.id = stoi(mass[0]);
     item.name = mass[1];
     item.surname = mass[2];
-    item.phone = mass[3];
+    item.phone = stol (mass[3]);
 
     return item;
 }
@@ -116,18 +129,13 @@ Tele getClassMass(Tele *teleMass) {
     return *teleMass;
 }
 
-
-string toString(int n){
-    std::ostringstream ss;
-    ss << n;
-    return ss.str();
-}
-
-
 void mounted() {
 
     int count = 0;
     count = getLengthFile(count);
+    
+    if(count == 0) printStart(); 
+    
     Tele teleMass[count];
     getClassMass(teleMass);
 
@@ -142,47 +150,49 @@ void mounted() {
 void addToFile() {
     string chooseNow;
     string fileText;
-    string temp;
+     Tele temp;
     
     isFile();
     std::ofstream vmdelet_out;                    
     vmdelet_out.open("text.txt", std::ios::app);
     
-    
     for(int i =0;i < 4;i++) {
-        
-    
     switch (i) {
     case 0: {
-       chooseNow = "id";
+        cout << "Введите " << "id" << endl;
+        while(true) {
+            if((std::cin >> temp.id).good()) break;
+            if(std::cin.fail()) {
+            std::cin.clear();
+            cout << "Введите число"<<endl;
+            std::cin.ignore();
+        }
+        }
+        
+        
        break;
     }
     case 1: {
-        chooseNow = "name";
+        cout << "Введите " << "name" << endl;
+        std::cin >> temp.name;
         break;
     }
     case 2: {
-        chooseNow = "surname";
+       cout << "Введите " << "surname" << endl;
+        std::cin >> temp.surname;
         break;
     }
     
      case 3: {
-        chooseNow = "phone";
+        cout << "Введите " << "phone" << endl;
+        std::cin >> temp.phone;
         break;
     }
     }
-    
-    cout << "Введите " << chooseNow << endl;
-    
-    std::cin >> temp;
-    
-    if(chooseNow == "id") {
-        temp+=".";
     }
     
-    fileText += temp + '\t';
     
-    }
+    fileText = toString(temp.id) + ". " + temp.name + " " + temp.surname + " " + toStringLong(temp.phone);
     
     vmdelet_out << fileText << ";" << '\n';                        
     vmdelet_out.close();   
@@ -227,7 +237,6 @@ void removeToFile() {
  
 
 }
-
 
 void printStart() {
 
