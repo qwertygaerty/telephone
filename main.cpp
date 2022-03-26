@@ -231,7 +231,7 @@ void addToFile() {
 
     fileText = temp.toLine();
 
-    vmdelet_out << fileText << ";" << '\n';
+    vmdelet_out << fileText << '\n';
     vmdelet_out.close();
     mounted();
 }
