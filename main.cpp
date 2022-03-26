@@ -75,7 +75,6 @@ int getFirstNonSpaceSymbol(string mass[4]) {
 }
 
 string getStringDelimiter(string s, string mass[4]) {
-
     std::istringstream instr(s);
     string w;
     int count;
@@ -150,7 +149,6 @@ void mounted() {
 }
 
 void searchInFile(string word_source, string word_dest) {
-
     ifstream fin;
 
     isFile();
@@ -172,13 +170,8 @@ void searchInFile(string word_source, string word_dest) {
             if (position != std::string::npos) {
                 count++;
 
-                // Пишем до найденого.
-
                 temp += str.substr(position_start,
                     position - position_start);
-
-                // Меняем слово.  
-
                 temp += word_dest;
                 position += word_source.size();
             } else {
@@ -196,63 +189,9 @@ void searchInFile(string word_source, string word_dest) {
     fout.close();
 }
 
-void removeInFile(string word_source) {
-
-    ifstream fin;
-
-    isFile();
-    fin.open("text.txt");
-    string temp;
-    int count = 0;
-    temp = "";
-    while (fin) {
-        string str;
-        int flag = 0;
-
-        getline(fin, str, '\n');
-        if (!fin) break;
-
-        size_t position = 0;
-
-        while (position != std::string::npos) {
-            size_t position_start = position;
-            position = str.find(word_source, position);
-
-            if (position != std::string::npos) {
-                count++;
-
-                // Пишем до найденого.
-
-                temp += str.substr(position_start,
-                    position - position_start);
-
-                // Меняем слово.  
-
-                flag = 1;
-
-                cout << position << endl;
-                position += word_source.size();
-            } else {
-                temp += str.substr(position_start,
-                    position - position_start);
-            }
-        }
-
-        temp += "\n";
-    }
-    fin.close();
-
-    // Перезаписываем файл. 
-    ofstream fout("text.txt");
-    fout << temp.substr(0, temp.size());
-    fout.close();
-}
-
 void addToFile() {
-    string chooseNow;
     string fileText;
     Tele temp;
-
     isFile();
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
@@ -269,7 +208,6 @@ void addToFile() {
                     std::cin.ignore();
                 }
             }
-
             break;
         }
         case 1: {
@@ -301,12 +239,7 @@ void addToFile() {
 void removeToFile() {
     int id;
     int count = 0;
-    char c;
-    string teleString = "";
-    int flag = 0;
-
     cout << "Введите id для Удаления" << endl;
-
     std::cin >> id;
     count = getLengthFile(count);
     Tele teleMass[count];
