@@ -10,14 +10,25 @@
 
 #include <fstream>
 
+using namespace std;
 using std::string;
 using std::cout;
 using std::endl;
 void printStart();
 
-
-
 FILE * f;
+
+string toString(int n) {
+    std::ostringstream ss;
+    ss << n;
+    return ss.str();
+}
+
+string toStringLong(long n) {
+    std::ostringstream ss;
+    ss << n;
+    return ss.str();
+}
 
 class Tele {
     public:
@@ -26,16 +37,19 @@ class Tele {
     int id;
     long phone;
     void print() {
-        
+
         cout << "---------------------------------------------------------------------------------------------------------" << endl;
-        
+
         cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\t|" << "\t\tPhone: " << phone << endl;
-        
+
         cout << "---------------------------------------------------------------------------------------------------------" << endl;
     }
 
-    void restore(int id, string name, string surname, long phone) {
+    string toLine() {
+        return toString(this -> id) + ". " + this -> name + " " + this -> surname + " " + toStringLong(this -> phone) + ";";
+    }
 
+    void restore(int id, string name, string surname, long phone) {
         if (id != -1) this -> id = id;
         if (name != " ") this -> name = name;
         if (surname != " ") this -> surname = surname;
@@ -47,18 +61,6 @@ void isFile() {
     if ((f = fopen("text.txt", "r")) == NULL) {
         std::ofstream oFile("text.txt");
     };
-}
-
-string toString(int n){
-    std::ostringstream ss;
-    ss << n;
-    return ss.str();
-}
-
-string toStringLong(long n){
-    std::ostringstream ss;
-    ss << n;
-    return ss.str();
 }
 
 int getFirstNonSpaceSymbol(string mass[4]) {
@@ -99,12 +101,13 @@ Tele getClassItem(string t) {
     item.id = stoi(mass[0]);
     item.name = mass[1];
     item.surname = mass[2];
-    item.phone = stol (mass[3]);
+    item.phone = stol(mass[3]);
 
     return item;
 }
 
 int getLengthFile(int count) {
+    isFile();
     char c;
     while (!feof(f))
         if ((c = fgetc(f)) == ';') {
@@ -113,7 +116,7 @@ int getLengthFile(int count) {
     return count;
 }
 
-Tele getClassMass(Tele *teleMass) {
+Tele getClassMass(Tele * teleMass) {
     string teleString = "";
     int n = 0;
     char c;
@@ -130,111 +133,195 @@ Tele getClassMass(Tele *teleMass) {
 }
 
 void mounted() {
-
     int count = 0;
     count = getLengthFile(count);
-    
-    if(count == 0) printStart(); 
-    
+
+    if (count == 0) printStart();
+
     Tele teleMass[count];
     getClassMass(teleMass);
 
     for (int i = 0; i < count; i++) {
         teleMass[i].print();
     }
-    
+
     printStart();
 
+}
+
+void searchInFile(string word_source, string word_dest) {
+
+    ifstream fin;
+
+    isFile();
+    fin.open("text.txt");
+    string temp;
+    int count = 0;
+    temp = "";
+    while (fin) {
+        string str;
+        getline(fin, str, '\n');
+        if (!fin) break;
+
+        size_t position = 0;
+
+        while (position != std::string::npos) {
+            size_t position_start = position;
+            position = str.find(word_source, position);
+
+            if (position != std::string::npos) {
+                count++;
+
+                // Пишем до найденого.
+
+                temp += str.substr(position_start,
+                    position - position_start);
+
+                // Меняем слово.  
+
+                temp += word_dest;
+                position += word_source.size();
+            } else {
+                temp += str.substr(position_start,
+                    position - position_start);
+            }
+        }
+        temp += "\n";
+    }
+    fin.close();
+
+    // Перезаписываем файл. 
+    ofstream fout("text.txt");
+    fout << temp.substr(0, temp.size());
+    fout.close();
+}
+
+void removeInFile(string word_source) {
+
+    ifstream fin;
+
+    isFile();
+    fin.open("text.txt");
+    string temp;
+    int count = 0;
+    temp = "";
+    while (fin) {
+        string str;
+        int flag = 0;
+
+        getline(fin, str, '\n');
+        if (!fin) break;
+
+        size_t position = 0;
+
+        while (position != std::string::npos) {
+            size_t position_start = position;
+            position = str.find(word_source, position);
+
+            if (position != std::string::npos) {
+                count++;
+
+                // Пишем до найденого.
+
+                temp += str.substr(position_start,
+                    position - position_start);
+
+                // Меняем слово.  
+
+                flag = 1;
+
+                cout << position << endl;
+                position += word_source.size();
+            } else {
+                temp += str.substr(position_start,
+                    position - position_start);
+            }
+        }
+
+        temp += "\n";
+    }
+    fin.close();
+
+    // Перезаписываем файл. 
+    ofstream fout("text.txt");
+    fout << temp.substr(0, temp.size());
+    fout.close();
 }
 
 void addToFile() {
     string chooseNow;
     string fileText;
-     Tele temp;
-    
+    Tele temp;
+
     isFile();
-    std::ofstream vmdelet_out;                    
+    std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
-    
-    for(int i =0;i < 4;i++) {
-    switch (i) {
-    case 0: {
-        cout << "Введите " << "id" << endl;
-        while(true) {
-            if((std::cin >> temp.id).good()) break;
-            if(std::cin.fail()) {
-            std::cin.clear();
-            cout << "Введите число"<<endl;
-            std::cin.ignore();
+
+    for (int i = 0; i < 4; i++) {
+        switch (i) {
+        case 0: {
+            cout << "Введите " << "id" << endl;
+            while (true) {
+                if ((std::cin >> temp.id).good()) break;
+                if (std::cin.fail()) {
+                    std::cin.clear();
+                    cout << "Введите число" << endl;
+                    std::cin.ignore();
+                }
+            }
+
+            break;
+        }
+        case 1: {
+            cout << "Введите " << "name" << endl;
+            std::cin >> temp.name;
+            break;
+        }
+        case 2: {
+            cout << "Введите " << "surname" << endl;
+            std::cin >> temp.surname;
+            break;
+        }
+
+        case 3: {
+            cout << "Введите " << "phone" << endl;
+            std::cin >> temp.phone;
+            break;
         }
         }
-        
-        
-       break;
     }
-    case 1: {
-        cout << "Введите " << "name" << endl;
-        std::cin >> temp.name;
-        break;
-    }
-    case 2: {
-       cout << "Введите " << "surname" << endl;
-        std::cin >> temp.surname;
-        break;
-    }
-    
-     case 3: {
-        cout << "Введите " << "phone" << endl;
-        std::cin >> temp.phone;
-        break;
-    }
-    }
-    }
-    
-    
-    fileText = toString(temp.id) + ". " + temp.name + " " + temp.surname + " " + toStringLong(temp.phone);
-    
-    vmdelet_out << fileText << ";" << '\n';                        
-    vmdelet_out.close();   
+
+    fileText = temp.toLine();
+
+    vmdelet_out << fileText << ";" << '\n';
+    vmdelet_out.close();
     mounted();
 }
 
 void removeToFile() {
-   int id;
-   char c;
-   string teleString = "";
-   int flag = 0;
+    int id;
+    int count = 0;
+    char c;
+    string teleString = "";
+    int flag = 0;
 
-   
-   isFile();
-   
-   cout << "Введите id для Удаления" << endl;
-  
-   std::cin >> id;
-   
-    // count = getLengthFile(count);
-    // Tele teleMass[count];
+    cout << "Введите id для Удаления" << endl;
 
-    while (!feof(f))
-        if ((c = fgetc(f)) == ';') {
-            teleString = "";
-            flag = 0;
-        } else {
-            teleString += c;
-             
-            c = ' ';
-            
-            if(teleString == (toString(id)+=".")) {
-                flag = 1;
-            }
-            
-            if(flag) {
-               cout << (toString(id)+='.') << endl;
-                cout << teleString << endl;
-            }
-            
+    std::cin >> id;
+    count = getLengthFile(count);
+    Tele teleMass[count];
+    getClassMass(teleMass);
+
+    for (int i = 0; i < count; i++) {
+        if (teleMass[i].id == id) {
+            string str = teleMass[i].toLine();
+            cout << "Удалено" << endl;
+            cout << str << endl;
+            searchInFile(str, " ");
         }
- 
+    }
+
+    mounted();
 
 }
 
@@ -249,13 +336,13 @@ void printStart() {
 
     switch (choose) {
     case 0: {
-       addToFile();
+        addToFile();
     }
     case 1: {
-       removeToFile();
+        removeToFile();
     }
     case 2: {
-       
+
     }
 
     }
