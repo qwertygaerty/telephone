@@ -31,6 +31,10 @@ string toStringLong(long n) {
     return ss.str();
 }
 
+void smileLinePrint() {
+    cout << "---------------------------------------------------------------------------------------------------------" << endl;
+}
+
 class Tele {
 public:
     string name;
@@ -39,28 +43,13 @@ public:
     long phone;
 
     void print() {
-
-        cout
-                << "---------------------------------------------------------------------------------------------------------"
-                << endl;
-
-        cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\t|" << "\t\tPhone: " << phone
-             << endl;
-
-        cout
-                << "---------------------------------------------------------------------------------------------------------"
-                << endl;
+        smileLinePrint();
+        cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\t|" << "\t\tPhone: " << phone << endl;
+        smileLinePrint();
     }
 
     string toLine() {
         return toString(this->id) + ". " + this->name + " " + this->surname + " " + toStringLong(this->phone) + ";";
-    }
-
-    void restore(int id, string name, string surname, long phone) {
-        if (id != -1) this->id = id;
-        if (name != " ") this->name = name;
-        if (surname != " ") this->surname = surname;
-        if (phone != -1) this->phone = phone;
     }
 };
 
@@ -99,13 +88,7 @@ string getStringDelimiter(string s, string mass[4]) {
 }
 
 Tele getClassItem(string t) {
-    string mass[4] = {
-            "n",
-            "n",
-            "n",
-            "n"
-    };
-
+    string mass[4] = {"n","n","n","n"};
     getStringDelimiter(t, mass);
 
     Tele item;
@@ -117,7 +100,8 @@ Tele getClassItem(string t) {
     return item;
 }
 
-int getLengthFile(int count) {
+int getLengthFile() {
+    int count = 0;
     isFile();
     char c;
     while (!feof(f))
@@ -145,24 +129,19 @@ Tele getClassMass(Tele *teleMass) {
 
 void mounted() {
     int count = 0;
-    count = getLengthFile(count);
-
+    count = getLengthFile();
     if (count == 0) printStart(0);
-
     Tele teleMass[count];
     getClassMass(teleMass);
 
     for (int i = 0; i < count; i++) {
         teleMass[i].print();
     }
-
     printStart(count);
-
 }
 
 void searchInFile(string word_source, string word_dest) {
     ifstream fin;
-
     isFile();
     fin.open("text.txt");
     string temp;
@@ -201,7 +180,6 @@ void searchInFile(string word_source, string word_dest) {
     fout.close();
 }
 
-
 string isOnlyString(std::string query) {
     string value;
     std::cout << query.c_str();
@@ -239,30 +217,21 @@ int isOnlyInt(std::string query) {
 }
 
 Tele setAllTempValue(Tele temp) {
-
     std::cout << temp.id << " - id" << std::endl;
-
     temp.name = isOnlyString("Введите name: ");
-
     temp.surname = isOnlyString("Введите surname: ");
-
     temp.phone = isOnlyLong("Введите phone: ");
     return temp;
 }
 
-
 void addToFile(int numberOfPhones) {
-    string fileText;
     Tele temp;
     isFile();
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
     temp.id = numberOfPhones + 1;
     temp = setAllTempValue(temp);
-
-
-    fileText = temp.toLine();
-    vmdelet_out << fileText << '\n';
+    vmdelet_out << temp.toLine() << '\n';
     vmdelet_out.close();
     mounted();
 }
@@ -274,7 +243,7 @@ void removeToFile() {
 
     id = isOnlyInt("Введите id для Удаления: ");
 
-    count = getLengthFile(count);
+    count = getLengthFile();
     Tele teleMass[count];
     getClassMass(teleMass);
 
@@ -293,19 +262,13 @@ void removeToFile() {
     if (!isId) removeToFile();
 
     mounted();
-
 }
-
 
 void restoreToFile() {
     bool isId = true;
     int id;
-    int count = 0;
-    Tele temp;
-
+    int count = getLengthFile();
     id = isOnlyInt("Введите id для Редактирования: ");
-
-    count = getLengthFile(count);
     Tele teleMass[count];
     getClassMass(teleMass);
 
@@ -313,9 +276,8 @@ void restoreToFile() {
         if (teleMass[i].id == id) {
             string str = teleMass[i].toLine();
             cout << "Поиск: " << str << endl;
-            temp = setAllTempValue(temp);
-            temp.id = id;
-            searchInFile(str, temp.toLine());
+            teleMass[i] = setAllTempValue(teleMass[i]);
+            searchInFile(str, teleMass[i].toLine());
             isId = true;
         } else {
             isId = false;
@@ -323,17 +285,15 @@ void restoreToFile() {
     }
 
     if (!isId) removeToFile();
-
     mounted();
 }
 
-
 void printStart(int count) {
-
     int choose;
     cout << "Введите 0 для добавления" << endl;
     cout << "Введите 1 для Удаления" << endl;
     cout << "Введите 2 для Редактирования" << endl;
+    smileLinePrint();
 
     std::cin >> choose;
 
@@ -347,9 +307,7 @@ void printStart(int count) {
         case 2: {
             restoreToFile();
         }
-
     }
-
 }
 
 int main() {
