@@ -209,7 +209,7 @@ string isOnlyString(std::string query) {
         if (std::cin.eof()) { throw "eof"; }
         std::cin.clear(); //Сбрасываем флаг ошибки, если таковая была
         std::cin.ignore(1000, '\n'); //Игнорируем оставшиеся в потоке данные
-        std::cout << "Try again: ";
+        std::cout << "Введите строку: ";
     }
     return value;
 }
@@ -226,7 +226,6 @@ long isOnlyLong(std::string query) {
     return value;
 }
 
-
 int isOnlyInt(std::string query) {
     int value;
     std::cout << query.c_str();
@@ -239,6 +238,18 @@ int isOnlyInt(std::string query) {
     return value;
 }
 
+Tele setAllTempValue(Tele temp) {
+
+    std::cout << temp.id << " - id" << std::endl;
+
+    temp.name = isOnlyString("Введите name: ");
+
+    temp.surname = isOnlyString("Введите surname: ");
+
+    temp.phone = isOnlyLong("Введите phone: ");
+    return temp;
+}
+
 
 void addToFile(int numberOfPhones) {
     string fileText;
@@ -246,29 +257,9 @@ void addToFile(int numberOfPhones) {
     isFile();
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
+    temp.id = numberOfPhones + 1;
+    temp = setAllTempValue(temp);
 
-    for (int i = 0; i < 4; i++) {
-        switch (i) {
-            case 0: {
-                temp.id = numberOfPhones + 1;
-                cout << temp.id << " - id" << endl;
-                break;
-            }
-            case 1: {
-                temp.name = isOnlyString("Введите name: ");
-                break;
-            }
-            case 2: {
-                temp.surname = isOnlyString("Введите surname: ");
-                break;
-            }
-
-            case 3: {
-                temp.phone = isOnlyLong("Введите phone: ");
-                break;
-            }
-        }
-    }
 
     fileText = temp.toLine();
     vmdelet_out << fileText << '\n';
@@ -305,6 +296,38 @@ void removeToFile() {
 
 }
 
+
+void restoreToFile() {
+    bool isId = true;
+    int id;
+    int count = 0;
+    Tele temp;
+
+    id = isOnlyInt("Введите id для Редактирования: ");
+
+    count = getLengthFile(count);
+    Tele teleMass[count];
+    getClassMass(teleMass);
+
+    for (int i = 0; i < count; i++) {
+        if (teleMass[i].id == id) {
+            string str = teleMass[i].toLine();
+            cout << "Поиск: " << str << endl;
+            temp = setAllTempValue(temp);
+            temp.id = id;
+            searchInFile(str, temp.toLine());
+            isId = true;
+        } else {
+            isId = false;
+        }
+    }
+
+    if (!isId) removeToFile();
+
+    mounted();
+}
+
+
 void printStart(int count) {
 
     int choose;
@@ -322,7 +345,7 @@ void printStart(int count) {
             removeToFile();
         }
         case 2: {
-
+            restoreToFile();
         }
 
     }
