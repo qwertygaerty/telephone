@@ -3,11 +3,8 @@
 *******************************************************************************/
 
 #include <iostream>
-
 #include <string>
-
 #include <sstream>
-
 #include <fstream>
 
 using namespace std;
@@ -32,7 +29,7 @@ string toStringLong(long n) {
 }
 
 void smileLinePrint() {
-    cout << "---------------------------------------------------------------------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------------------------------------------------"<< endl;
 }
 
 class Tele {
@@ -44,7 +41,8 @@ public:
 
     void print() {
         smileLinePrint();
-        cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\t|" << "\t\tPhone: " << phone << endl;
+        cout << "ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t\t|" << "\t\tPhone: " << phone
+             << endl;
         smileLinePrint();
     }
 
@@ -61,7 +59,7 @@ void isFile() {
 
 int getFirstNonSpaceSymbol(string mass[4]) {
     int count;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; ; i++) {
         if (mass[i] == "n") {
             count = i;
             break;
@@ -88,7 +86,7 @@ string getStringDelimiter(string s, string mass[4]) {
 }
 
 Tele getClassItem(string t) {
-    string mass[4] = {"n","n","n","n"};
+    string mass[4] = {"n", "n", "n", "n"};
     getStringDelimiter(t, mass);
 
     Tele item;
@@ -174,7 +172,7 @@ void searchInFile(string word_source, string word_dest) {
     }
     fin.close();
 
-    // Перезаписываем файл. 
+    // Перезаписываем файл.
     ofstream fout("text.txt");
     fout << temp.substr(0, temp.size());
     fout.close();
@@ -284,7 +282,7 @@ void restoreToFile() {
         }
     }
 
-    if (!isId) removeToFile();
+    if (!isId) restoreToFile();
     mounted();
 }
 
