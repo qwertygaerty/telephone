@@ -57,7 +57,6 @@ public:
     string surname;
     int id;
     long long phone;
-
     void print() {
         smileLinePrint();
         cout << "\t\t\t\t\t" <<"ID: " << id << "\tName: " << name << "\tSurName: " << surname << "\t|" << "\tPhone: " << phone
@@ -108,7 +107,6 @@ string getStringDelimiter(string s, string mass[4]) {
 Tele getClassItem(string t) {
     string mass[4] = {"n", "n", "n", "n"};
     getStringDelimiter(t, mass);
-
     Tele item;
     item.id = stoi(mass[0]);
     item.name = mass[1];
@@ -162,7 +160,6 @@ void mounted() {
 
 int getId() {
 int choose;
-
     int count = 0;
     count = getLengthFile();
     int Set[count]; //DEFAULT COLORS
@@ -170,16 +167,12 @@ int choose;
     getClassMass(teleMass);
     int counter = count/2;
     char key;
-
     for(int i = 0 ;;) {
         system("cls");
         for (int i = 0; i < count; i++) {
             if(i != counter) Set[i]=7;
-
         Set[counter] = 12;
-
         color(Set[i]);
-
         teleMass[i].print();
         }
         key = _getch();
@@ -202,7 +195,6 @@ int choose;
                     color(Set[i]);
                         return teleMass[counter].id;
                 }
-
     }
 
 }
@@ -218,9 +210,7 @@ void searchInFile(string word_source, string word_dest) {
         string str;
         getline(fin, str, '\n');
         if (!fin) break;
-
         size_t position = 0;
-
         while (position != std::string::npos) {
             size_t position_start = position;
             position = str.find(word_source, position);
@@ -300,7 +290,6 @@ void addToFile() {
     getClassMass(teleMass);
     numberOfPhones = teleMass[count-1].id;
     if(count == 0) numberOfPhones = 0;
-
     isFile();
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
@@ -355,7 +344,6 @@ void printStart(int count) {
     int counter = 2;
     char key;
     for(int i = 0 ;;) {
-
         gotoxy(0, 10);
         color(Set[0]);
         cout << "Добавить номер телефона" << "\n";
@@ -380,10 +368,8 @@ void printStart(int count) {
         if (key == 13)
         {
             if (counter == 1 ) {
-
                 gotoxy(0, 6);
                 if(count == 0) cout << "Введите свой первый телефонный номер";
-
                 gotoxy(0, 13);
                 addToFile();
             }
