@@ -16,7 +16,6 @@ void printStart(int count);
 FILE *f;
 
 void color (int color) {
-
     SetConsoleTextAttribute (GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 void gotoxy(int x, int y) {
@@ -292,8 +291,16 @@ Tele setAllTempValue(Tele temp) {
     return temp;
 }
 
-void addToFile(int numberOfPhones) {
+void addToFile() {
     Tele temp;
+    int count = 0;
+    int numberOfPhones = 0;
+    count = getLengthFile();
+    Tele teleMass[count];
+    getClassMass(teleMass);
+    numberOfPhones = teleMass[count-1].id;
+    if(count == 0) numberOfPhones = 0;
+
     isFile();
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
@@ -378,7 +385,7 @@ void printStart(int count) {
                 if(count == 0) cout << "Введите свой первый телефонный номер";
 
                 gotoxy(0, 13);
-                addToFile(count);
+                addToFile();
             }
             if (counter == 2 && count != 0 ) {
                 removeToFile();
@@ -412,4 +419,3 @@ int main()
     mounted();
     return 0;
 }
-
