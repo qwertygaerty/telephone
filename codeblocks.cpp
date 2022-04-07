@@ -149,10 +149,11 @@ Tele getClassMass(Tele *teleMass) {
 void mounted() {
     int count = 0;
     count = getLengthFile();
+     system("cls");
     if (count == 0) printStart(0);
     Tele teleMass[count];
     getClassMass(teleMass);
-    system("cls");
+
     for (int i = 0; i < count; i++) {
             color(7);
         teleMass[i].print();
@@ -311,7 +312,6 @@ void removeToFile() {
     getClassMass(teleMass);
 
     id = getId();
-
     for (int i = 0; i < count; i++) {
         if (teleMass[i].id == id) {
             string str = teleMass[i].toLine();
@@ -363,23 +363,34 @@ void printStart(int count) {
 
         key = _getch();
 
-       if (key == 72 && (counter >=2 && counter <=3)) {
+       if (key == 72 && (counter >=2 && counter <=3 )) {
             counter --;
         }
-        if (key == 80 && (counter >=1 && counter <=2)) // 80 = down arrow
+        if (key == 80 && (counter >=1 && counter <=2) ) // 80 = down arrow
         {
         counter++;
         }
         if (key == 13)
         {
-            if (counter == 1) {
+            if (counter == 1 ) {
+
+                gotoxy(0, 6);
+                if(count == 0) cout << "Введите свой первый телефонный номер";
+
+                gotoxy(0, 13);
                 addToFile(count);
             }
-            if (counter == 2) {
+            if (counter == 2 && count != 0 ) {
                 removeToFile();
+            }  else {
+                gotoxy(0, 6);
+            cout << "Пока нет ни одной записи. ";
             }
-            if (counter == 3) {
+            if (counter == 3 && count != 0) {
                 restoreToFile();
+            } else {
+                gotoxy(0, 6);
+            cout << "Пока нет ни одной записи. ";
             }
         }
 
