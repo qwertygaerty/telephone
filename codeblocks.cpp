@@ -283,14 +283,17 @@ Tele setAllTempValue(Tele temp) {
 
 void addToFile() {
     Tele temp;
+    isFile();
     int count = 0;
     int numberOfPhones = 0;
     count = getLengthFile();
-    Tele teleMass[count];
-    getClassMass(teleMass);
-    numberOfPhones = teleMass[count-1].id;
+    if(count) {
+            Tele teleMass[count];
+            getClassMass(teleMass);
+            numberOfPhones = teleMass[count-1].id;
+    }
     if(count == 0) numberOfPhones = 0;
-    isFile();
+
     std::ofstream vmdelet_out;
     vmdelet_out.open("text.txt", std::ios::app);
     temp.id = numberOfPhones + 1;
